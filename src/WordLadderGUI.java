@@ -100,21 +100,23 @@ public class WordLadderGUI extends JFrame {
             }
     
             long startTime = System.currentTimeMillis();
-            List<String> path;
             Algorithm algo = new Algorithm();
+            Result res;
             switch (algorithmChoice) {
                 case 1:
-                    path = algo.solveUCS(start, end, dictionary);
+                    res = algo.solveUCS(start, end, dictionary);
                     break;
                 case 2:
-                    path = algo.solveGBFS(start, end, dictionary);
+                    res = algo.solveGBFS(start, end, dictionary);
                     break;
                 case 3:
-                    path = algo.solveAStar(start, end, dictionary);
+                    res = algo.solveAStar(start, end, dictionary);
                     break;
                 default:
                     return "Invalid";
             }
+            List<String> path = res.getPath();
+            int nodesVisited = res.getVisitedNodes();
             long endTime = System.currentTimeMillis();
     
             if (path == null || path.isEmpty()) {
@@ -125,7 +127,7 @@ public class WordLadderGUI extends JFrame {
                 path.set(i, capitalizeWord(path.get(i)));
             }    
     
-            return "Path: " + String.join(" -> ", path) + "\n" + "Steps: " + (path.size() - 1) + "\n" + "Execution Time: " + (endTime - startTime) + " ms";
+            return "Path: " + String.join(" -> ", path) + "\n" + "Steps: " + (path.size() - 1) + "\n" + "Nodes Visited: " + (nodesVisited) + "\n" + "Execution Time: " + (endTime - startTime) + " ms";
         } catch (IOException e) {
             return "Failed to load the dictionary. Error: " + e.getMessage();
         }

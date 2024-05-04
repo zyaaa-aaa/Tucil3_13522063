@@ -1,11 +1,12 @@
 import java.util.*;
 
 public class Algorithm {
-    public List<String> solveAStar (String start, String end, WordsDatabase dictionary) {
+    public Result solveAStar (String start, String end, WordsDatabase dictionary) {
         Map<String, Integer> mapHeuristic = new HashMap<>();
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(Node::getFn));
         Map<String, Integer> costMap = new HashMap<>();
         int startH = heuristicValue(start, end);
+        int nodesVisited = 0;
 
         mapHeuristic.put(start, startH);
         priorityQueue.offer(new Node(start, null, startH));
@@ -15,8 +16,10 @@ public class Algorithm {
             Node currentNode = priorityQueue.poll();
             int currentG = costMap.get(currentNode.getWord());
 
+            nodesVisited++;
+
             if (currentNode.getWord().equals(end)) {
-                return wordPath(currentNode);
+                return new Result(wordPath(currentNode), nodesVisited);
             }
 
             for (String neighbor: neighboursList(currentNode.getWord(), dictionary)) {
@@ -31,56 +34,62 @@ public class Algorithm {
                 }
             }
         }
-        return Collections.emptyList();
+        return new Result(Collections.emptyList(), nodesVisited);
     }
 
-    public List<String> solveGBFS (String start, String end, WordsDatabase dictionary) {
+    public Result solveGBFS (String start, String end, WordsDatabase dictionary) {
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(node -> heuristicValue(node.getWord(), end)));
         Map<String, Integer> visitedMap = new HashMap<>();
         priorityQueue.offer(new Node(start, null, 0));
+        int nodesVisited = 0;
 
         while (!priorityQueue.isEmpty()) {
-            Node current = priorityQueue.poll();
+            Node currentNode = priorityQueue.poll();
 
-            if (current.getWord().equals(end)) {
-                return wordPath(current);
+            nodesVisited++;
+
+            if (currentNode.getWord().equals(end)) {
+                return new Result(wordPath(currentNode), nodesVisited);
             }
-            if (!visitedMap.containsKey(current.getWord()) || visitedMap.get(current.getWord()) > heuristicValue(current.getWord(), end)) {
-                visitedMap.put(current.getWord(), heuristicValue(current.getWord(), end));
-                for (String neighbor : neighboursList(current.getWord(), dictionary)) {
+            if (!visitedMap.containsKey(currentNode.getWord()) || visitedMap.get(currentNode.getWord()) > heuristicValue(currentNode.getWord(), end)) {
+                visitedMap.put(currentNode.getWord(), heuristicValue(currentNode.getWord(), end));
+                for (String neighbor : neighboursList(currentNode.getWord(), dictionary)) {
                     int neighborHeuristic = heuristicValue(neighbor, end);
 
                     if (!visitedMap.containsKey(neighbor) || visitedMap.get(neighbor) > neighborHeuristic) {
-                        priorityQueue.offer(new Node(neighbor, current, 0));
+                        priorityQueue.offer(new Node(neighbor, currentNode, 0));
                     }
                 }
             }
         }
-        return Collections.emptyList();
+        return new Result(Collections.emptyList(), nodesVisited);
     }
 
-    public List<String> solveUCS(String start, String end, WordsDatabase dictionary) {
+    public Result solveUCS(String start, String end, WordsDatabase dictionary) {
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(Node::getFn));
         Set<String> visited = new HashSet<>();
+        int nodesVisited = 0;
 
         priorityQueue.add(new Node(start, null, 0));
 
         while (!priorityQueue.isEmpty()) {
-            Node current = priorityQueue.poll();
+            Node currentNode = priorityQueue.poll();
 
-            if (current.getWord().equals(end)) {
-                return wordPath(current);
+            nodesVisited++;
+
+            if (currentNode.getWord().equals(end)) {
+                return new Result(wordPath(currentNode), nodesVisited);
             }
-            if (!visited.contains(current.getWord())) {
-                visited.add(current.getWord());
-                for (String neighbor : neighboursList(current.getWord(), dictionary)) {
+            if (!visited.contains(currentNode.getWord())) {
+                visited.add(currentNode.getWord());
+                for (String neighbor : neighboursList(currentNode.getWord(), dictionary)) {
                     if (!visited.contains(neighbor)) {
-                        priorityQueue.add(new Node(neighbor, current, current.getFn() + 1));
+                        priorityQueue.add(new Node(neighbor, currentNode, currentNode.getFn() + 1));
                     }
                 }
             }
         }
-        return Collections.emptyList();
+        return new Result(Collections.emptyList(), nodesVisited);
     }
 
     private int heuristicValue (String currentWord, String endWord) {
