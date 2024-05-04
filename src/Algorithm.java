@@ -119,9 +119,10 @@ public class Algorithm {
         LinkedList<String> path = new LinkedList<>();
         
         while (node != null) {
-            node = node.getParent();
             path.addFirst(node.getWord());
+            node = node.getParent();
         }
+
         return path;
     }
 }
