@@ -1,0 +1,11 @@
+List Test Case:
+1. Baby -> Crib
+2. Ouch -> Hurt
+3. Wade -> Swim
+4. Star -> Buck
+5. Halo -> Glow
+6. Home -> Brew
+7. Babbler -> Cabaret
+8. Colorful -> Delicate
+9. Kettle -> Holder
+10. Flour -> Bread
