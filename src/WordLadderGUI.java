@@ -120,7 +120,7 @@ public class WordLadderGUI extends JFrame {
             long endTime = System.currentTimeMillis();
     
             if (path == null || path.isEmpty()) {
-                return "No path found between " + start + " and " + end;
+                return "No path found between " + start + " and " + end + "\n" + "Nodes Visited: " + (nodesVisited) + "\n" + "Execution Time: " + (endTime - startTime) + " ms";
             }
 
             for (int i = 0; i < path.size(); i++) {
