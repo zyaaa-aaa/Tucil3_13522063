@@ -38,23 +38,25 @@ The features of our program:
 ## Program Structure
 
 ```
+├── bin
+│   ├── Algorithm.class
+│   ├── Main.class
+│   ├── Node.class
+│   ├── Result.class
+│   ├── WordLadderGUI.class
+│   ├── WordLadderGUI$1.class
+│   └── WordsDatabase.class
 ├── doc
 │   └── Tucil3_13522063.pdf
 ├── src
-│   ├── Algorithm.class
+│   ├── resources
+│   │   └── dictionary.txt
 │   ├── Algorithm.java
-│   ├── Main.class
 │   ├── Main.java
-│   ├── Node.class
 │   ├── Node.java
-│   ├── Result.class
 │   ├── Result.java
-│   ├── WordLadderGUI.class
 │   ├── WordLadderGUI.java
-│   ├── WordLadderGUI$1.class
-│   ├── WordsDatabase.class
-│   ├── WordsDatabase.java
-│   └── dictionary.txt
+│   └── WordsDatabase.java
 ├── test
 │   └── test.txt
 └── README.md
@@ -76,11 +78,11 @@ The features of our program:
     ```
 2. Open repository folder in terminal.
 3. Change directory into *src* with `cd src`
-3.  Type in terminal
+4.  Type in terminal
     ```
     javac Main.java
     ```
-4.  Type in terminal
+5.  Type in terminal
     ```
     java Main
     ```

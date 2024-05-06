@@ -6,7 +6,7 @@ public class WordsDatabase {
         wordSet = new LinkedHashSet<>();
         String line;
 
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        BufferedReader reader = new BufferedReader(new FileReader("resources/"+filename));
         while ((line = reader.readLine()) != null) {
             wordSet.add(line.trim());
         }
